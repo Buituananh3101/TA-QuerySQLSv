@@ -153,3 +153,57 @@ where
     and
     n.TenNXB=N'NXB Giáo Dục'
 
+--34. Tìm khách hàng (MaKH, TenKH) có số lần mua hàng nhiều nhất.
+select top 1 with ties
+    k.MaKH,
+    k.TenKH,
+    count(h.SoHDB) as SoLanMua
+from 
+    tKhachHang k 
+    join tHoaDonBan h on k.MaKH=h.MaKH
+group by 
+    k.MaKH,
+    k.TenKH
+order by 
+    count(h.SoHDB) desc
+
+--35. Tháng mấy trong năm 2014, doanh số bán hàng cao nhất ?
+--> Doanh số bán hàng từng tháng --> lấy cái cao nhất
+
+--c1
+select top 1
+    th,
+    doanhthu
+from 
+    (
+        select  
+            month(h.NgayBan) as th,
+            sum(c.SLBan*s.DonGiaBan) as doanhthu
+        from 
+            tHoaDonBan h 
+            join tChiTietHDB c on c.SoHDB=h.SoHDB
+            join tSach s on s.MaSach=c.MaSach
+        where 
+            year(h.NgayBan)=2014
+        group by 
+            month(h.NgayBan)
+    ) as bang
+order by 
+    doanhthu desc
+
+--c2
+
+select top 1 with ties
+    month(h.NgayBan) as Thang,
+    sum(c.SLBan * s.DonGiaBan) as DoanhThu
+from 
+    tHoaDonBan h
+    join tChiTietHDB c on c.SoHDB = h.SoHDB
+    join tSach s on s.MaSach = c.MaSach
+where 
+    year(h.NgayBan) = 2014
+group by 
+    month(h.NgayBan)
+order by 
+    DoanhThu desc;
+    

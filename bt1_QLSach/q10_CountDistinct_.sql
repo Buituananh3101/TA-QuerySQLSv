@@ -25,16 +25,3 @@ group by
 having 
     count(distinct c.MaSach) >=3
 
---Mỗi NXB, tìm sách (MaSach,TenSach) có giá bán cao nhất
-select top 1
-    s.MaNXB
-from 
-    tSach s 
-order by 
-    s.DonGiaBan desc 
-
-select 
-    n.TenNXB
-from    
-    tNhaXuatBan n 
-WHERE

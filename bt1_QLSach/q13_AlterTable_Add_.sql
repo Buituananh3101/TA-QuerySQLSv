@@ -17,21 +17,45 @@ set TongTien = ( -- Gán giá trị cho cột TongTien bằng kết quả của 
         c.SoHDB = tHoaDonBan.SoHDB -- Truy vấn con tương quan: Chỉ tính tổng cho số hóa đơn tương ứng với dòng đang được cập nhật
 );
 
---40. Giảm 10% trên tổng hóa đơn cho các hóa đơn có trị giá trên 500.000 trong tháng 9/2014
+--40. Giảm 10% trên tổng hóa đơn cho các hóa đơn có trị giá trên 500.000 trong tháng 9/2014 (mix 39)
 
 update tHoaDonBan
 set TongTien = TongTien * 0.9
 where 
-    month(NgayBan) = 9            -- Sửa thành tháng 9
+    month(NgayBan) = 4          -- Sửa thành tháng 9
     and year(NgayBan) = 2014
     and TongTien > 500000;        -- Dùng luôn cột TongTien đã có, nhớ là dấu >
 
+--41. Tính tổng số lượng sách nhập trong năm 2014
 
-
-
-update tHoaDonBan
-set TongTien = TongTien * 0.9
+select 
+    year(h.NgayNhap),
+    sum(c.SLNhap)
+from 
+    tHoaDonNhap h 
+    join tChiTietHDN c on h.SoHDN=c.SoHDN
 where 
-    month(NgayBan) = 9            -- Sửa thành tháng 9
-    and year(NgayBan) = 2014
-    and TongTien > 500000;        -- Dùng luôn cột TongTien đã có, nhớ là dấu >
+    year(h.NgayNhap)=2014
+group by 
+    year(h.NgayNhap)
+
+--42. Tính tổng số lượng sách bán trong năm 2014
+
+select 
+    sum(c.SLBan) as TongSoLuongBan
+from 
+    tHoaDonBan h 
+    join tChiTietHDB c on h.SoHDB = c.SoHDB
+where 
+    year(h.NgayBan) = 2014;
+
+--43. Tính tổng tiền đã nhập trong năm 2014
+select 
+    sum(c.SLNhap*s.DonGiaNhap) 
+from 
+    tHoaDonNhap h 
+    join tChiTietHDN c on h.SoHDN = c.SoHDN
+    join tSach s on c.MaSach=s.MaSach
+where 
+    year(h.NgayNhap) = 2014;
+
