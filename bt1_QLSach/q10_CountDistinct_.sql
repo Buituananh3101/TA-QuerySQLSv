@@ -25,18 +25,16 @@ group by
 having 
     count(distinct c.MaSach) >=3
 
---34. Tìm khách hàng (MaKH, TenKH) có số lần mua hàng nhiều nhất.
-select top 1 with ties
-    k.MaKH,
-    k.TenKH,
-    count(h.SoHDB) as SoLanMua
+--Mỗi NXB, tìm sách (MaSach,TenSach) có giá bán cao nhất
+select top 1
+    s.MaNXB
 from 
-    tKhachHang k 
-    join tHoaDonBan h on k.MaKH=h.MaKH
-group by 
-    k.MaKH,
-    k.TenKH
+    tSach s 
 order by 
-    count(h.SoHDB) desc
+    s.DonGiaBan desc 
 
---35. Tháng mấy trong năm 2014, doanh số bán hàng cao nhất ?
+select 
+    n.TenNXB
+from    
+    tNhaXuatBan n 
+WHERE
