@@ -14,11 +14,28 @@ where
     and ctdt.KhoaHocApDung = '62'
 order by 
     ct_hp.KyHoc ASC;
--- 3. Đưa ra danh sách các bộ môn của Khoa Công nghệ thông tin. 
+-- 3. Đưa ra danh sách các bộ môn của    Khoa Công nghệ thông tin. 
 -- 4. Đưa ra danh sách giảng viên của Khoa Công nghệ thông tin. 
 -- 5. Đưa ra danh sách các lớp học phần của học phần Cơ sở dữ liệu trong năm học 2023-2024. 
 -- 6. Đưa ra thông tin chi tiết của một sinh viên có mã sinh viên là '201200085'. 
 -- 7. Đưa ra danh sách các giảng viên trong một bộ môn “Mạng và các hệ thống thông tin” 2 
 -- 8. Đưa ra thông tin của các chương trình đào tạo của khoa Công nghệ thông tin 
 -- 9. Đưa ra thông tin điểm số học phần cơ sở dữ liệu của sinh viên “Nguyễn Hoàng Lan”
+select 
+    s.MaSinhVien,
+    (s.HoDem + ' ' + s.Ten) AS HoTen,
+    hp.TenHocPhan,
+    ls.DiemQuaTrinh,
+    ls.DiemThiKTHP,
+    ls.DiemTKHP,
+    ls.DiemHeChu,
+    ls.DiemHe4
+from 
+    SinhVien s
+    join LopHocPhan_SinhVien ls on s.MaSinhVien = ls.MaSinhVien
+    join LopHocPhan lhp on ls.MaLopHocPhan = lhp.MaLopHocPhan
+    join HocPhan hp on lhp.MaHocPhan = hp.MaHocPhan
+where 
+    (s.HoDem + ' ' + s.Ten) = N'Nguyễn Hoàng Lan'
+    AND hp.TenHocPhan = N'Cơ sở dữ liệu';
 -- 10.  Đưa ra danh sách các lớp học phần của giảng viên “Nguyễn Kim Sao” đã giảng dạy trong học kỳ 2, 3 của năm học 2023-2024.
